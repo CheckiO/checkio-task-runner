@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru-RU">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Default Page Title</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/shCoreDefault.css">
+    <script type="text/javascript" src="/static/shCore.js"></script>
+    <script type="text/javascript" src="/static/shBrushPython.js"></script>
+</head>
+
+<body>
+<div id="content">
+    <div id="big-window">
+        <div class="top-data">
+            <h1>{{ task_name }}</h1>
+        </div>
+        <div id="inner-data">
+            {% block inner_data %}
+
+            {% endblock inner_data %}
+        </div>
+        <div class="bottom-data">
+
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //noinspection JSUnresolvedVariable
+    SyntaxHighlighter.all();
+</script>
+</body>
+</html>
