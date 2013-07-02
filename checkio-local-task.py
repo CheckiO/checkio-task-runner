@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, json, send_from_directory
 import sys
 import os
+import traceback
 
 app = Flask(__name__, static_folder="./static-local")
 TASK_PATH = "./"
@@ -13,9 +14,11 @@ def custom_static(filename):
     print(filename)
     return send_from_directory(os.path.join(TASK_PATH, "illustrations"), filename)
 
-def error_page(message, er):
+
+def error_page(message, er, trace=None):
     context = {
-        "message": message
+        "message": message,
+        "traceback": trace
     }
     return render_template("error.html", **context)
 
@@ -25,7 +28,8 @@ def main_page():
     try:
         description = open(os.path.join(TASK_PATH, "description.html")).read()
     except IOError as er:
-        return error_page("Cant find the description file.", er)
+        trace = traceback.format_exc()
+        return error_page("Cant find the description file.", er, trace)
     try:
         task_config_file = open(os.path.join(TASK_PATH, "task.json"))
         task_config = json.load(task_config_file)

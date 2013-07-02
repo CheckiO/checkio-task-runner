@@ -44,3 +44,12 @@ body {
 .for_editor_only{
     display: none;
 }
+
+.error-trace,
+.error-message{
+    color: red;
+}
+
+.error-trace {
+    white-space: pre-wrap;
+}
