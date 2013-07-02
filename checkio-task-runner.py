@@ -46,7 +46,7 @@ def main_page():
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("usage: checkio-local-task.py <task-path>")
+        print("usage: checkio-task-runner.py <task-path>")
         print("    task-path -- path for special organised folder with task info")
         sys.exit(1)
     global TASK_PATH
