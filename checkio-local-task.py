@@ -9,10 +9,12 @@ DEFAULT_NAME = "Task's Name"
 
 
 @app.route('/static/files/illustrations/<path:filename>')
-def custom_static(filename):
-    print(os.path.join(TASK_PATH, "illustrations"))
-    print(filename)
+def custom_static_illustrations(filename):
     return send_from_directory(os.path.join(TASK_PATH, "illustrations"), filename)
+
+@app.route('/static/files/icon/<path:filename>')
+def custom_static_icon(filename):
+    return send_from_directory(os.path.join(TASK_PATH, "icon"), filename)
 
 
 def error_page(message, er, trace=None):

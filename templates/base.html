@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/static-local/shCoreDefault.css">
     <script type="text/javascript" src="/static-local/shCore.js"></script>
     <script type="text/javascript" src="/static-local/shBrushPython.js"></script>
+    <script type="text/javascript" src="/static-local/jquery_190.js"></script>
 </head>
 
 <body>
@@ -14,6 +15,11 @@
     <div id="big-window">
         <div class="top-data">
             <h1>{{ task_name }}</h1>
+            <div class="flag">
+                <div class="logo-frame">
+                    <img id="task-icon" class="disabled-icon" src="/static/files/icon/disabled.png">
+                </div>
+            </div>
         </div>
         <div id="inner-data">
             {% block inner_data %}
@@ -30,6 +36,21 @@
 <script type="text/javascript">
     //noinspection JSUnresolvedVariable
     SyntaxHighlighter.all();
+
+
+    var icon = $("#task-icon").click(function() {
+        var $this = $(this);
+        if ($this.hasClass("disabled-icon")) {
+            $this.removeClass("disabled-icon");
+            $this.attr("src", "/static/files/icon/enabled.png");
+        }
+        else {
+            $this.addClass("disabled-icon");
+            $this.attr("src", "/static/files/icon/disabled.png")
+        }
+    });
+
+
 </script>
 </body>
 </html>
