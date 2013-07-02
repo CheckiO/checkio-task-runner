@@ -1,5 +1,5 @@
 body {
-    background: #0e6691 url(/static/img/body_bg_light.jpg) repeat left top;
+    background: #0e6691 url(/static-local/img/body_bg_light.jpg) repeat left top;
     font-family: Verdana, sans-serif;
 }
 
@@ -11,7 +11,7 @@ body {
 }
 
 .top-data {
-    background: url('/static/img/big_window_head.png') no-repeat left top;
+    background: url('/static-local/img/big_window_head.png') no-repeat left top;
     height: 54px;
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .bottom-data {
-    background: url('/static/img/big_window_bottom.png') no-repeat left top;
+    background: url('/static-local/img/big_window_bottom.png') no-repeat left top;
     height: 12px;
 }
 

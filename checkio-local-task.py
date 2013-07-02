@@ -1,11 +1,17 @@
-from flask import Flask, render_template, redirect, json
+from flask import Flask, render_template, redirect, json, send_from_directory
 import sys
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="./static-local")
 TASK_PATH = "./"
 DEFAULT_NAME = "Task's Name"
 
+
+@app.route('/static/files/illustrations/<path:filename>')
+def custom_static(filename):
+    print(os.path.join(TASK_PATH, "illustrations"))
+    print(filename)
+    return send_from_directory(os.path.join(TASK_PATH, "illustrations"), filename)
 
 def error_page(message, er):
     context = {
@@ -39,7 +45,6 @@ if __name__ == '__main__':
         sys.exit(1)
     global TASK_PATH
     TASK_PATH = sys.argv[1]
-    print(TASK_PATH)
     if not os.path.exists(TASK_PATH):
         print("Cant find the folder")
         sys.exit(2)
