@@ -13,14 +13,12 @@
         <span style="float: right"><a href="/explanation/{{ category }}/{{ next }}"> &gt;</a></span>
     </div>
     {{ animation_content|safe }}
-    <div id="footer">
-        <a href="/">Top</a>
-        <a href="/task/{{ name }}">{{ name }}</a>
-    </div>
+
 </div>
 <script type="text/javascript" src="/static-local/animation_mock.js"></script>
 <script type="text/javascript">
     $(".switch").css("width", parseInt($(".animation_results").css("width")) - 2);
+    $("#inner-data").css("background-color", "#ffffff");
 </script>
 <script type="text/javascript">
     var fakeData = {
@@ -29,5 +27,6 @@
         "req": {{ user_answer|tojson|safe }}
     };
 </script>
+<link rel="stylesheet" type="text/css" href="/media/animation.css">
 <script type="text/javascript" src="/media/animation.js"></script>
 {% endblock inner_data %}

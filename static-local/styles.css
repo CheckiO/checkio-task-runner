@@ -112,9 +112,9 @@ body {
     border: #99bce8 1px solid;
 }
 
-/*.switch a {*/
-    /*text-decoration: none;*/
-/*}*/
+.switch a {
+    text-decoration: none;
+}
 
 
 /*.switch-category {*/
