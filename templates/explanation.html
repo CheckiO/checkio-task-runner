@@ -1,23 +1,17 @@
 {% extends "base.html" %}
 
 {% block inner_data %}
-<div class="animation_results x-panel-body" style="width: {{ width }}px;margin-left: auto;margin-right: auto;">
-    <table id="switch">
-        <tr>
-            <td>
-                <span style="float: left"><a href="/task/{{ name }}/expl/{{ prev_category }}/1"> &lt;</a></span>
-                {{ category }}
-                <span style="float: right"><a href="/task/{{ name }}/expl/{{ next_category }}/1"> &gt;</a></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="float: left"><a href="/explanation/{{ category }}/{{ prev }}"> &lt;</a></span>
-                {{ number }}/{{ quantity }}
-                <span style="float: right"><a href="/explanation/{{ category }}/{{ next }}"> &gt;</a></span>
-            </td>
-        </tr>
-    </table>
+<div class="animation_results x-panel-body" style="width: {{ width }}px;margin-left: auto;margin-right: auto;position: relative;">
+    <div class="switch switch-category">
+        <span style="float: left"><a href="/explanation/{{ prev_category }}/1"> &lt;</a></span>
+        {{ category }}
+        <span style="float: right"><a href="/explanation/{{ next_category }}/1"> &gt;</a></span>
+    </div>
+    <div class="switch switch-tests">
+        <span style="float: left"><a href="/explanation/{{ category }}/{{ prev }}"> &lt;</a></span>
+        {{ number }}/{{ quantity }}
+        <span style="float: right"><a href="/explanation/{{ category }}/{{ next }}"> &gt;</a></span>
+    </div>
     {{ animation_content|safe }}
     <div id="footer">
         <a href="/">Top</a>
@@ -25,6 +19,9 @@
     </div>
 </div>
 <script type="text/javascript" src="/static-local/animation_mock.js"></script>
+<script type="text/javascript">
+    $(".switch").css("width", parseInt($(".animation_results").css("width")) - 2);
+</script>
 <script type="text/javascript">
     var fakeData = {
         "ext": {{ test_data|tojson|safe }},
