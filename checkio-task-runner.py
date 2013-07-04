@@ -1,8 +1,8 @@
 from random import randint, choice
-from flask import Flask, render_template, redirect, json, send_from_directory, abort
+from flask import Flask, render_template, redirect, json, send_from_directory,\
+    abort
 import sys
 import os
-import traceback
 import re
 
 
@@ -21,11 +21,11 @@ def random_int():
 
 
 def random_str():
-    return ''.join([chr(randint(48, 126)) for i in range(randint(10, 20))])
+    return ''.join([chr(randint(48, 126)) for _ in range(randint(10, 20))])
 
 
 def random_list():
-    return [randint(0, 100) for i in range(randint(10, 20))]
+    return [randint(0, 100) for _ in range(randint(10, 20))]
 
 
 def random_answer():
@@ -51,7 +51,7 @@ def custom_media(filename):
 def error_page(message, trace=""):
     context = {
         "message": message,
-        "traceback": traceback.format_exc(),
+        "traceback": trace,
         "task_name": TASK_NAME
 
     }
