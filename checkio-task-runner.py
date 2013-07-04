@@ -58,8 +58,9 @@ def error_page(message, trace=""):
     return render_template("error.html", **context)
 
 
-def read_description(path):
-    return (os.path.join(path, "description.html")).read()
+def get_description(path):
+    with open(os.path.join(path, "description.html")) as f:
+        return f.read()
 
 
 def get_task_config(path):
@@ -78,7 +79,7 @@ def get_categories(path):
 def main_page():
     global TASK_PATH
     global TASK_NAME
-    description = read_description(TASK_PATH)
+    description = get_description(TASK_PATH)
     task_config = get_task_config(TASK_PATH)
 
     TASK_NAME = task_config.get('title', TASK_NAME)

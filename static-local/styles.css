@@ -49,6 +49,11 @@ body {
     float: left;
 }
 
+.top-data h1 a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
 #inner-data {
     font-family: Verdana, sans-serif;
     font-size: 14px;
