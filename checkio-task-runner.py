@@ -3,6 +3,12 @@ from flask import Flask, render_template, redirect, json, send_from_directory, a
 import sys
 import os
 import traceback
+import re
+
+
+class TaskException(Exception):
+    pass
+
 
 TASK_PATH = "./"
 TASK_NAME = "Task's Name"
@@ -36,6 +42,7 @@ def custom_static_illustrations(filename):
 def custom_static_icon(filename):
     return send_from_directory(os.path.join(TASK_PATH, "icon"), filename)
 
+
 @app.route('/media/<path:filename>')
 def custom_media(filename):
     return send_from_directory(TASK_PATH, filename)
@@ -44,29 +51,38 @@ def custom_media(filename):
 def error_page(message, trace=""):
     context = {
         "message": message,
-        "traceback": trace,
+        "traceback": traceback.format_exc(),
         "task_name": TASK_NAME
 
     }
     return render_template("error.html", **context)
 
 
+def read_description(path):
+    return (os.path.join(path, "description.html")).read()
+
+
+def get_task_config(path):
+    task_config_file = open(os.path.join(path, "task.json"))
+    return json.load(task_config_file)
+
+
+def get_categories(path):
+    categories = [p.split("_", 1)[1].rsplit(".", 1)[0]
+                  for p in os.listdir(path)
+                  if p.startswith("test_") and p.endswith(".json")]
+    return filter(None, categories)
+
+
 @app.route('/')
 def main_page():
     global TASK_PATH
     global TASK_NAME
-    try:
-        description = open(os.path.join(TASK_PATH, "description.html")).read()
-    except IOError as er:
-        return error_page("Cant find the description file.",
-                          traceback.format_exc())
-    try:
-        task_config_file = open(os.path.join(TASK_PATH, "task.json"))
-        task_config = json.load(task_config_file)
-    except IOError:
-        return error_page("Cant find the task's config file.",
-                          traceback.format_exc())
+    description = read_description(TASK_PATH)
+    task_config = get_task_config(TASK_PATH)
+
     TASK_NAME = task_config.get('title', TASK_NAME)
+
     context = {
         'task_name': TASK_NAME,
         'description': description.decode("utf-8"),
@@ -74,49 +90,57 @@ def main_page():
     return render_template("task.html", **context)
 
 
+def get_tests(path, category):
+    with open(os.path.join(path, "test_{0}.json".format(category))) as tf:
+        test_dict = json.load(tf)
+    return test_dict["tests"]
+
+
+def get_animation_cfg(path):
+    with open(os.path.join(path, 'animation_cfg.json')) as cfg_file:
+        return json.load(cfg_file)
+
+
+def get_template(path):
+    with open(os.path.join(path, 'template.html')) as template:
+        return template.read()
+
+
 @app.route("/explanation")
 @app.route("/explanation/<string:category>/<int:number>")
 def test_explanation(category=None, number=None):
     test_dir = os.path.join(TASK_PATH, "tests")
 
-    if not os.path.exists(test_dir):
-        return error_page("Cant find tests folder.")
-    categories = [p.split("_", 1)[1].rsplit(".", 1)[0]
-                  for p in os.listdir(test_dir)
-                  if p.startswith("test_") and p.endswith(".json")]
-    categories = filter(None, categories)
+    categories = get_categories(test_dir)
     if not categories:
         return error_page("Cant find any tests files.")
+
     if not category:
         return redirect("/explanation/{0}/1".format(categories[0]))
 
-    try:
-        with open(os.path.join(test_dir,
-                               "test_{0}.json".format(category))) as test_file:
-            test_dict = json.load(test_file)
-    except IOError:
-        return error_page("Cant find the test file.",
-                          traceback.format_exc())
-    try:
-        tests = test_dict["tests"]
-        try:
-            test = tests[number - 1]
-        except IndexError:
-            abort(404)
+    if category not in categories:
+        abort(404)
 
-        input_data = test["input"]
-        answer = test["answer"]
-        explanation = test.get("explanation", None)
-    except KeyError:
-        return error_page("Wrong format for test file",
-                          traceback.format_exc())
+    tests = get_tests(test_dir, category)
 
     try:
-        with open(os.path.join(TASK_PATH, 'animation_cfg.json')) as cfg_file:
-            cfg = json.load(cfg_file)
-    except IOError:
-        return error_page("Cant find the animation cfg file.",
-                          traceback.format_exc())
+        test = tests[number - 1]
+    except IndexError:
+        abort(404)
+
+    input_data = test["input"]
+    answer = test["answer"]
+    explanation = test.get("explanation", None)
+
+    cfg = get_animation_cfg(TASK_PATH)
+
+    template_data = get_template(TASK_PATH)
+    animation_content = re.search(
+        r'<script type="text/template" id="template_animation">' +
+        r'(.*?)' +
+        r'</script>',
+        template_data,
+        re.S).groups()[0]
 
     test_result = choice([True, False])
     user_answer = answer if test_result else random_answer()
@@ -135,7 +159,8 @@ def test_explanation(category=None, number=None):
         'quantity': len(tests),
         'category': category,
         'prev': number - 1 if number > 1 else 1,
-        'next': number + 1 if number < len(tests) else len(tests)
+        'next': number + 1 if number < len(tests) else len(tests),
+        "animation_content": animation_content
     }
 
     return render_template("explanation.html", **context)
