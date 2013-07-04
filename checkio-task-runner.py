@@ -82,7 +82,7 @@ def main_page():
     description = get_description(TASK_PATH)
     task_config = get_task_config(TASK_PATH)
 
-    TASK_NAME = task_config.get('title', TASK_NAME)
+    TASK_NAME = task_config.get('task_name', TASK_NAME)
 
     context = {
         'task_name': TASK_NAME,
