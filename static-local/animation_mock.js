@@ -31,18 +31,12 @@ var falseExt = {
         return $("." + name + "_results")
     },
     "JSON": {
-        "encode": function lencode(a) {
-            if (a instanceof Array) {
-                var res = [];
-                for (var i = 0; i < a.length; i++) {
-                    res.push(lencode(a[i]));
-                }
-                return "[" + res.join(", ") + "]";
-            }
-            return String(a);
+        "encode": function(a) {
+//
+            return JSON.stringify(a);
         },
-        "decode": function (a) {
-            return a;
+        "decode": function(a) {
+            return JSON.parse(a);
         }
     }
 };
