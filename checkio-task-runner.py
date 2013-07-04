@@ -122,6 +122,11 @@ def test_explanation(category=None, number=None):
     if category not in categories:
         abort(404)
 
+    category_index = categories.index(category)
+    prev_category_index = category_index - 1 if category_index > 0 else 0
+    next_category_index = category_index + 1 if category_index < len(categories) - 1 else len(categories) - 1
+
+
     tests = get_tests(test_dir, category)
 
     try:
@@ -161,7 +166,9 @@ def test_explanation(category=None, number=None):
         'category': category,
         'prev': number - 1 if number > 1 else 1,
         'next': number + 1 if number < len(tests) else len(tests),
-        "animation_content": animation_content
+        "animation_content": animation_content,
+        'prev_category': categories[prev_category_index],
+        'next_category': categories[next_category_index],
     }
 
     return render_template("explanation.html", **context)
