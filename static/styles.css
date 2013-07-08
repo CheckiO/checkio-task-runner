@@ -1,5 +1,5 @@
 body {
-    background: #0e6691 url(/static-local/img/body_bg_light.jpg) repeat left top;
+    background: #0e6691 url(/static/img/body_bg_light.jpg) repeat left top;
     font-family: Verdana, sans-serif;
 }
 
@@ -12,14 +12,14 @@ body {
 }
 
 .top-data {
-    background: url('/static-local/img/big_window_head.png') no-repeat left top;
+    background: url('/static/img/big_window_head.png') no-repeat left top;
     height: 54px;
 }
 
 .flag {
     float: left;
     margin-left: 20px;
-    background: url('/static-local/img/window_flag.png') no-repeat;
+    background: url('/static/img/window_flag.png') no-repeat;
     width: 76px;
     height: 101px;
     margin-top: -14px;
@@ -65,7 +65,7 @@ body {
 }
 
 .bottom-data {
-    background: url('/static-local/img/big_window_bottom.png') no-repeat left top;
+    background: url('/static/img/big_window_bottom.png') no-repeat left top;
     height: 12px;
 }
 

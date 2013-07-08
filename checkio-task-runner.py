@@ -13,7 +13,7 @@ class TaskException(Exception):
 TASK_PATH = "./"
 TASK_NAME = "Task's Name"
 
-app = Flask(__name__, static_folder="./static-local")
+app = Flask(__name__)
 
 
 def random_int():
@@ -32,15 +32,15 @@ def random_answer():
     return choice([random_list, random_int, random_str])()
 
 
-@app.route('/static/files/illustrations/<path:filename>')
+@app.route('/info/media/<path:filename>')
 def custom_static_illustrations(filename):
-    return send_from_directory(os.path.join(TASK_PATH, "illustrations"),
+    return send_from_directory(os.path.join(TASK_PATH, "info", "media"),
                                filename)
 
 
-@app.route('/static/files/icon/<path:filename>')
+@app.route('/info/logo/<path:filename>')
 def custom_static_icon(filename):
-    return send_from_directory(os.path.join(TASK_PATH, "icon"), filename)
+    return send_from_directory(os.path.join(TASK_PATH, "info", "logo"), filename)
 
 
 @app.route('/media/<path:filename>')
