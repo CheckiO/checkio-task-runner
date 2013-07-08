@@ -31,18 +31,12 @@ var falseExt = {
         return $("." + name + "_results")
     },
     "JSON": {
-        "encode": function lencode(a) {
-            if (a instanceof Array) {
-                var res = [];
-                for (var i = 0; i < a.length; i++) {
-                    res.push(lencode(a[i]));
-                }
-                return "[" + res.join(", ") + "]";
-            }
-            return String(a);
+        "encode": function(a) {
+//
+            return JSON.stringify(a);
         },
-        "decode": function (a) {
-            return a;
+        "decode": function(a) {
+            return JSON.parse(a);
         }
     }
 };
@@ -57,8 +51,16 @@ var fakeThis_e = {
         $(".animation_results").attr("height", h)
     },
     "sendToConsoleCheckiO": function (data) {
-        console.log(data);
-        retResult(fakeThis_e, ret);
+        ret = $("#tryit-returned-input").val();
+        var ret_parsed;
+        try {
+            ret_parsed = JSON.parse(ret);
+        }
+        catch(err) {
+            console.log("Cant parse value");
+            ret_parsed = ret;
+        }
+        retResult(fakeThis_e, ret_parsed);
     }
 };
 

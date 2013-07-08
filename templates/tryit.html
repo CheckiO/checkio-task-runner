@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block inner_data %}
+    <div class="tryit-returned">
+        This is emulation for returned value. Enter that you want to returned at your tryit.
+        It's using json parsing.
+        <input type="text" id="tryit-returned-input" value="42">
+    </div>
+
+    <div class="tryit_results x-panel-body" style="width: {{ width }}px;height: {{ height }}; margin-left: auto;margin-right: auto;position: relative;">
+
+        {{ tryit_content|safe }}
+
+    </div>
+    <script type="text/javascript" src="/static-local/animation_mock_tryit.js"></script>
+    <script type="text/javascript">
+        $(".inner-data").css("background-color", "#ffffff");
+    </script>
+{#    <script type="text/javascript">#}
+{#        var fakeData = {#}
+{#            "ext": {{ test_data|tojson|safe }},#}
+{#            "referee": {{ test_data.input|tojson|safe }},#}
+{#            "req": {{ user_answer|tojson|safe }}#}
+{#        };#}
+{#    </script>#}
+    <link rel="stylesheet" type="text/css" href="/media/animation.css">
+    <script type="text/javascript" src="/media/animation.js"></script>
+{% endblock inner_data %}

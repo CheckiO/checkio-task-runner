@@ -135,3 +135,21 @@ body {
     border: #294270 1px solid;
     min-height: 128px;
 }
+
+.tryit-returned {
+    width: 400px;
+    height: 100px;
+    margin: 20px auto 20px auto;
+    text-align: center;
+    background-color: #c7eafd;
+    font-size: 12px;
+    padding: 5px;
+    border: #294270 solid 1px;
+}
+
+.tryit-returned input {
+    font-family: Verdana, serif;
+    font-size: 16px;
+    margin: 10px;
+    text-align: center;
+}

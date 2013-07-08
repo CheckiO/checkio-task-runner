@@ -173,6 +173,25 @@ def test_explanation(category=None, number=None):
 
     return render_template("explanation.html", **context)
 
+@app.route("/tryit")
+def tryit():
+    template_data = get_template(TASK_PATH)
+    tryit_content = re.search(
+        r'<script type="text/template" id="template_tryit">' +
+        r'(.*?)' +
+        r'</script>',
+        template_data,
+        re.S).groups()[0]
+
+    cfg = get_animation_cfg(TASK_PATH)
+    context = {
+        'task_name': TASK_NAME,
+        'width': cfg.get("tryit_results_width", 400),
+        'height': cfg.get("tryit_results_height", 200),
+        "tryit_content": tryit_content,
+        }
+
+    return render_template("tryit.html", **context)
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
