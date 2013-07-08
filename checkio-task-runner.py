@@ -4,8 +4,6 @@ from flask import Flask, render_template, redirect, json, send_from_directory,\
 import sys
 import os
 import re
-
-
 class TaskException(Exception):
     pass
 
