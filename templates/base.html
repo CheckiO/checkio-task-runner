@@ -7,8 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/static/shCoreDefault.css">
     <script type="text/javascript" src="/static/shCore.js"></script>
     <script type="text/javascript" src="/static/shBrushPython.js"></script>
-    <script type="text/javascript" src="/static/jquery_190.js"></script>
-    <script type="text/javascript" src="/static/raphael_210.js"></script>
+
 </head>
 
 <body>
@@ -17,7 +16,7 @@
         <div class="top-data">
             <div class="flag">
                 <div class="logo-frame">
-                    <img id="task-icon" class="disabled-icon" src="/static/files/icon/disabled.png">
+                    <img type="image/svg+xml" id="task-icon" class="disabled-icon" src="/info/media/logo/enabled.svg">
                 </div>
             </div>
             <h1><a href="/">{{ task_name }}</a></h1>
@@ -30,7 +29,7 @@
         </div>
         <div class="inner-data">
             {% block inner_data %}
-
+                {{ description|safe }}
             {% endblock inner_data %}
         </div>
         <div class="bottom-data">
@@ -43,21 +42,6 @@
 <script type="text/javascript">
     //noinspection JSUnresolvedVariable
     SyntaxHighlighter.all();
-
-
-    var icon = $("#task-icon").click(function() {
-        var $this = $(this);
-        if ($this.hasClass("disabled-icon")) {
-            $this.removeClass("disabled-icon");
-            $this.attr("src", "/static/files/icon/enabled.png");
-        }
-        else {
-            $this.addClass("disabled-icon");
-            $this.attr("src", "/static/files/icon/disabled.png")
-        }
-    });
-
-
 </script>
 </body>
 </html>

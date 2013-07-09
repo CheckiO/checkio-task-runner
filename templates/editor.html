@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru-RU">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Default Page Title</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script type="text/javascript" src="/static/jquery_190.js"></script>
+    <script type="text/javascript" src="/static/raphael_210.js"></script>
+    <script type="text/javascript" src="/static/ace/src-min-noconflict/ace.js"></script>
+</head>
+
+<body>
+<div id="editor" style="float: left">
+def checkio():
+</div>
+<div id="right-panel">
+    asd
+</div>
+<div id="bottom-panel">
+
+</div>
+<script>
+    var rightWidth = {{ right_width }};
+    var consoleHeight = {{ console_height }};
+    var tryitWidth = {{ tryit_width }};
+    var tryitHeight = {{ tryit_height }};
+
+
+    var $editor = $("#editor");
+    var $bottomPanel = $("#bottom-panel");
+    var resizeEditor = function(){
+        var fullHeight = $(window).height();
+        var fullWidth = $(window).width();
+        $editor.css("width", fullWidth - rightWidth);
+        $editor.css("height", fullHeight - consoleHeight);
+        $("#right-panel").css("height", fullHeight);
+        $bottomPanel.css("width", fullWidth - rightWidth);
+
+    };
+    $("#right-panel").css("width", rightWidth);
+    $bottomPanel.css("height", consoleHeight);
+    $bottomPanel.css("margin-top", -consoleHeight);
+    $(window).resize(resizeEditor);
+    resizeEditor();
+
+
+
+    var editor = ace.edit("editor");
+    editor.getSession().setMode("ace/mode/python");
+</script>
+</body>
+</html>
