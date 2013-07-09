@@ -97,10 +97,15 @@ def get_tests(path, category):
     return test_dict["tests"]
 
 
-def get_animation_cfg(path):
-    with open(os.path.join(path, 'animation_cfg.json')) as cfg_file:
-        return json.load(cfg_file)
+def get_initial_codes(path):
+    codes_dir = os.path.join(path, "editor", "initial_code")
+    result = {}
+    for code_file in os.listdir(codes_dir):
+        name = code_file.rsplit(".", 1)[0]
 
+        with open(os.path.join(codes_dir, code_file)) as tf:
+            result[name] = tf.read()
+    return result
 
 def get_template(path):
     with open(os.path.join(path, 'template.html')) as template:
@@ -138,6 +143,8 @@ def test_explanation(category=None, number=None):
     # explanation = test.get("explanation", None)
     #
     cfg = get_task_config(TASK_PATH)["editor"]
+
+    initial_codes = get_initial_codes(TASK_PATH)
     #
     # template_data = get_template(TASK_PATH)
     # animation_content = re.search(
@@ -163,6 +170,7 @@ def test_explanation(category=None, number=None):
         'console_height': cfg.get("console_height", 230),
         'tryit_width': cfg.get("tryit_results_width", 400),
         'tryit_height': cfg.get("tryit_results_height", 200),
+        'initial_codes': initial_codes
         # 'number': number,
         # 'quantity': len(tests),
         # 'category': category,

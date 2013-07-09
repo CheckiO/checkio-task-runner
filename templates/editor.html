@@ -12,9 +12,7 @@
 </head>
 
 <body>
-<div id="editor" style="float: left">
-def checkio():
-</div>
+<div id="editor" style="float: left"></div>
 <div id="right-panel">
     asd
 </div>
@@ -22,13 +20,16 @@ def checkio():
 
 </div>
 <script>
+    //From Flask
     var rightWidth = {{ right_width }};
     var consoleHeight = {{ console_height }};
     var tryitWidth = {{ tryit_width }};
     var tryitHeight = {{ tryit_height }};
-
+    var initialCodes = {{ initial_codes|tojson|safe }};
 
     var $editor = $("#editor");
+    $editor.text(initialCodes.python);
+
     var $bottomPanel = $("#bottom-panel");
     var resizeEditor = function(){
         var fullHeight = $(window).height();
