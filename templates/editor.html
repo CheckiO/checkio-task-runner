@@ -12,16 +12,37 @@
 </head>
 
 <body>
+<div class="topmenu-bar">
+    Checkio editor emulation
+</div>
+<div class="topmenu-bar">
+    <ul>
+        <li>
+            Save Code
+        </li>
+        <li>
+            Run&Check
+        </li>
+        <li>
+            Reset Code
+        </li>
+    </ul>
+</div>
 <div id="editor" style="float: left"></div>
 <div id="right-panel">
-    asd
+    <div class="panel-header">
+        Check results
+    </div>
+    <div id="editor-description">
+    {{ description|safe }}
+    </div>
 </div>
 <div id="bottom-panel">
 
 </div>
 <script>
     //From Flask
-    var rightWidth = {{ right_width }};
+    var rightWidth = {{ right_width }} + 6;
     var consoleHeight = {{ console_height }};
     var tryitWidth = {{ tryit_width }};
     var tryitHeight = {{ tryit_height }};

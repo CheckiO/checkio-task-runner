@@ -75,20 +75,7 @@ def get_categories(path):
     return filter(None, categories)
 
 
-@app.route('/')
-def main_page():
-    global TASK_PATH
-    global TASK_NAME
-    description = get_description(os.path.join(TASK_PATH, "info"))
-    task_config = get_task_config(TASK_PATH)
 
-    TASK_NAME = task_config.get('task_name', TASK_NAME)
-
-    context = {
-        'task_name': TASK_NAME,
-        'description': description.decode("utf-8"),
-    }
-    return render_template("base.html", **context)
 
 
 def get_tests(path, category):
@@ -111,6 +98,20 @@ def get_template(path):
     with open(os.path.join(path, 'template.html')) as template:
         return template.read()
 
+@app.route('/')
+def main_page():
+    global TASK_PATH
+    global TASK_NAME
+    description = get_description(os.path.join(TASK_PATH, "info"))
+    task_config = get_task_config(TASK_PATH)
+
+    TASK_NAME = task_config.get('task_name', TASK_NAME)
+
+    context = {
+        'task_name': TASK_NAME,
+        'description': description.decode("utf-8"),
+        }
+    return render_template("base.html", **context)
 
 @app.route("/editor")
 def test_explanation(category=None, number=None):
@@ -145,6 +146,8 @@ def test_explanation(category=None, number=None):
     cfg = get_task_config(TASK_PATH)["editor"]
 
     initial_codes = get_initial_codes(TASK_PATH)
+
+    description = get_description(os.path.join(TASK_PATH, "info"))
     #
     # template_data = get_template(TASK_PATH)
     # animation_content = re.search(
@@ -158,6 +161,7 @@ def test_explanation(category=None, number=None):
     # user_answer = answer if test_result else random_answer()
     context = {
         'task_name': TASK_NAME,
+        'description': description,
         # 'test_data': {
         #     'result': test_result,
         #     'input': input_data,
@@ -183,25 +187,25 @@ def test_explanation(category=None, number=None):
 
     return render_template("editor.html", **context)
 
-@app.route("/tryit")
-def tryit():
-    template_data = get_template(TASK_PATH)
-    tryit_content = re.search(
-        r'<script type="text/template" id="template_tryit">' +
-        r'(.*?)' +
-        r'</script>',
-        template_data,
-        re.S).groups()[0]
-
-    cfg = get_animation_cfg(TASK_PATH)
-    context = {
-        'task_name': TASK_NAME,
-        'width': cfg.get("tryit_results_width", 400),
-        'height': cfg.get("tryit_results_height", 200),
-        "tryit_content": tryit_content,
-        }
-
-    return render_template("tryit.html", **context)
+# @app.route("/tryit")
+# def tryit():
+#     template_data = get_template(TASK_PATH)
+#     tryit_content = re.search(
+#         r'<script type="text/template" id="template_tryit">' +
+#         r'(.*?)' +
+#         r'</script>',
+#         template_data,
+#         re.S).groups()[0]
+#
+#     cfg = get_animation_cfg(TASK_PATH)
+#     context = {
+#         'task_name': TASK_NAME,
+#         'width': cfg.get("tryit_results_width", 400),
+#         'height': cfg.get("tryit_results_height", 200),
+#         "tryit_content": tryit_content,
+#         }
+#
+#     return render_template("tryit.html", **context)
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
