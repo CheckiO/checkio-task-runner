@@ -180,7 +180,7 @@ body {
 
 #bottom-panel {
     float: left;
-    background-color: #bbbbbb;
+    background-color: #ffffff;
 }
 
 .panel-header {
@@ -193,10 +193,12 @@ body {
     font-family: tahoma, arial, verdana, sans-serif;
     line-height: 15px;
     border: 1px solid #99bce8;
-    margin-left: -6px;
+    margin-left: -2px;
+    height: 30px;
 }
 
-.topmenu-bar {
+.topmenu-bar,
+.bottom-bar {
     background-color: #d3e1f1;
     background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #dfe9f5), color-stop(100%, #d3e1f1));
     width: 100%;
@@ -204,6 +206,11 @@ body {
     border: #99bce8 solid 1px;
     padding: 2px;
     font-family: tahoma, arial, verdana, sans-serif;
+    height: 30px;
+}
+
+.bottom-bar {
+    display: inline-block;
 }
 
 .topmenu-bar ul {
@@ -217,4 +224,21 @@ body {
     padding: 2px 10px 2px 0px;
     font-size: 12px;
     font-family: tahoma, arial, verdana, sans-serif;
+
+}
+
+#tryit-panel {
+    float: left;
+    background-color: #d3e1f1;
+    float: right;
+    box-sizing: border-box;
+    border: #99bce8 solid 1px;
+}
+
+.tryit_results {
+    overflow: auto;
+}
+
+.animation_results {
+    overflow: auto;
 }

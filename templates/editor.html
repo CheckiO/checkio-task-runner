@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <script type="text/javascript" src="/static/jquery_190.js"></script>
     <script type="text/javascript" src="/static/raphael_210.js"></script>
-    <script type="text/javascript" src="/static/ace/src-min-noconflict/ace.js"></script>
+    <script type="text/javascript"
+            src="/static/ace/src-min-noconflict/ace.js"></script>
 </head>
 
 <body>
@@ -33,16 +34,28 @@
     <div class="panel-header">
         Check results
     </div>
-    <div id="editor-description">
-    {{ description|safe }}
+    <div class="animation_results">
+        <div id="editor-description">
+            {{ description|safe }}
+        </div>
     </div>
 </div>
 <div id="bottom-panel">
+    <div class="panel-header">
+        Console
+    </div>
+    <div class="tryit_results" style="width: 100%; height: 170px">
+        <div id="tryit-panel">
 
+        </div>
+    </div>
+</div>
+<div class="bottom-bar">
+    Checkio editor emulation
 </div>
 <script>
     //From Flask
-    var rightWidth = {{ right_width }} + 6;
+    var rightWidth = {{ right_width }} +6;
     var consoleHeight = {{ console_height }};
     var tryitWidth = {{ tryit_width }};
     var tryitHeight = {{ tryit_height }};
@@ -52,21 +65,26 @@
     $editor.text(initialCodes.python);
 
     var $bottomPanel = $("#bottom-panel");
-    var resizeEditor = function(){
-        var fullHeight = $(window).height();
+    var $tryitPanel = $("#tryit-panel");
+    var resizeEditor = function () {
+        var fullHeight = $(window).height() - 90;
         var fullWidth = $(window).width();
         $editor.css("width", fullWidth - rightWidth);
         $editor.css("height", fullHeight - consoleHeight);
         $("#right-panel").css("height", fullHeight);
         $bottomPanel.css("width", fullWidth - rightWidth);
+        $(".animation_results").css("height", fullHeight - 30);
 
     };
     $("#right-panel").css("width", rightWidth);
+    $(".tryit_results").css("height", consoleHeight - 30);
+
+    $tryitPanel.css("width", tryitWidth);
+    $tryitPanel.css("height", tryitHeight);
     $bottomPanel.css("height", consoleHeight);
     $bottomPanel.css("margin-top", -consoleHeight);
     $(window).resize(resizeEditor);
     resizeEditor();
-
 
 
     var editor = ace.edit("editor");
