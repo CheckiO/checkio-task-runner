@@ -16,7 +16,7 @@
         <div class="top-data">
             <div class="flag">
                 <div class="logo-frame">
-                    <img type="image/svg+xml" id="task-icon" class="disabled-icon" src="/info/media/logo/enabled.svg">
+                    <img id="task-icon" class="disabled-icon" src="/logo/enabled.svg">
                 </div>
             </div>
             <h1><a href="/">{{ task_name }}</a></h1>
@@ -28,9 +28,7 @@
             </div>
         </div>
         <div class="inner-data">
-            {% block inner_data %}
-                {{ description|safe }}
-            {% endblock inner_data %}
+            {{ description|safe }}
         </div>
         <div class="bottom-data">
 
