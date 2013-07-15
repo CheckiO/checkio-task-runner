@@ -1,4 +1,3 @@
-from random import randint, choice
 import sys
 import os
 import json
@@ -14,9 +13,6 @@ from twisted.internet import reactor
 from twisted.python.log import startLogging
 
 startLogging(sys.stdout)
-
-class TaskException(Exception):
-    pass
 
 
 TASK_DIR = None
@@ -52,6 +48,7 @@ def get_initial_codes():
             result[name] = tf.read()
     return result
 
+
 def set_globals(path):
     global TASK_DIR, TASK_NAME
     TASK_DIR = path
@@ -85,6 +82,8 @@ def set_globals(path):
 #     return render_template("tryit.html", **context)
 
 class TaskPage(resource.Resource):
+    isLeaf = False
+
     def getChild(self, path, request):
         if path == '':
             return self
@@ -97,7 +96,9 @@ class TaskPage(resource.Resource):
 
         return str(template.render(context))
 
+
 class EditorPage(resource.Resource):
+    isLeaf = True
 
     def render_GET(self, request):
         cfg = get_task_config()["editor"]
