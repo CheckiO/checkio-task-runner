@@ -59,7 +59,7 @@
     var consoleHeight = {{ console_height }};
     var tryitWidth = {{ tryit_width }};
     var tryitHeight = {{ tryit_height }};
-    var initialCodes = {{ initial_codes|tojson|safe }};
+    var initialCodes = {{ initial_codes|safe }};
 
     var $editor = $("#editor");
     $editor.text(initialCodes.python);
