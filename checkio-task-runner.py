@@ -11,12 +11,18 @@ import settings
 from twisted.web import server, resource, static
 from twisted.internet import reactor
 from twisted.python.log import startLogging
+from twisted.application import service, internet
+
+from runners import settings as r_settings
+from runners.web import WebServerSite, WebResource
+from runners.echo import EchoServerFactory
 
 startLogging(sys.stdout)
 
 
 TASK_DIR = None
 TASK_NAME = "Task's Name"
+TASK_SLUG = None
 
 
 def get_task_config():
@@ -28,7 +34,12 @@ def get_description():
     with open(path_join(TASK_PATH,
                         settings.INFO_DIR,
                         settings.DESCRIPTION_FILE_NAME)) as f:
-        return f.read()
+        description = f.read()
+        return Template(description).render(
+            Context({'TASK_SLUG': TASK_SLUG,
+                     'MEDIA_URL': settings.MEDIA_URL})
+        )
+
 
 
 def get_template(name):
@@ -50,10 +61,11 @@ def get_initial_codes():
 
 
 def set_globals(path):
-    global TASK_DIR, TASK_NAME
+    global TASK_DIR, TASK_NAME, TASK_SLUG
     TASK_DIR = path
-    task_config = get_task_config()
+    task_config = get_task_config().get('global', {})
     TASK_NAME = task_config.get('task_name', TASK_NAME)
+    TASK_SLUG = task_config.get('task_slug', TASK_SLUG)
 
 
 # def get_template(path):
@@ -136,8 +148,12 @@ if __name__ == '__main__':
                                         settings.INFO_DIR,
                                         settings.LOGO_DIR),
                               defaultType="image/svg+xml"))
-
+    media = static.File(path_join(TASK_DIR, settings.INFO_DIR, settings.MEDIA_DIR))
+    root.putChild(settings.MEDIA_URL, media)
+    media.putChild(TASK_SLUG, static.File(path_join(TASK_DIR, settings.INFO_DIR, settings.MEDIA_DIR)))
     site = server.Site(root)
 
+    reactor.listenTCP(r_settings.CHAT_SERVICE_PORT, EchoServerFactory())
+    reactor.listenTCP(r_settings.WEB_SERVICE_PORT, WebServerSite(WebResource()))
     reactor.listenTCP(settings.WEB_PORT, site)
     reactor.run()
