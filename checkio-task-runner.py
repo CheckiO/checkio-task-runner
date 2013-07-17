@@ -110,6 +110,7 @@ class TaskPage(resource.Resource):
     def render_GET(self, request):
         description = get_description()
         story = get_story()
+        task_name = TASK_NAME
         context = Context(locals())
         template = Template(get_template("base.html"))
 
