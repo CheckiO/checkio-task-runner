@@ -9,7 +9,7 @@ structured folder. For the local web server it uses Flask.
 Requirements
 ------------
 
-Flask.
+Twisted.
 
 Syntax
 ------
