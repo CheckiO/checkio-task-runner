@@ -242,3 +242,9 @@ body {
 .animation_results {
     overflow: auto;
 }
+
+.story {
+    font-style: italic;
+    font-size: 13px;
+    margin-bottom: 30px;
+}

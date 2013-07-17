@@ -11,11 +11,11 @@ import settings
 from twisted.web import server, resource, static
 from twisted.internet import reactor
 from twisted.python.log import startLogging
-from twisted.application import service, internet
-
-from runners import settings as r_settings
-from runners.web import WebServerSite, WebResource
-from runners.echo import EchoServerFactory
+# from twisted.application import service, internet
+#
+# from runners import settings as r_settings
+# from runners.web import WebServerSite, WebResource
+# from runners.echo import EchoServerFactory
 
 startLogging(sys.stdout)
 
@@ -40,6 +40,12 @@ def get_description():
                      'MEDIA_URL': settings.MEDIA_URL})
         )
 
+
+def get_story():
+    with open(path_join(TASK_PATH,
+                        settings.INFO_DIR,
+                        settings.STORY_FILE_NAME)) as f:
+        return f.read()
 
 
 def get_template(name):
@@ -103,6 +109,7 @@ class TaskPage(resource.Resource):
 
     def render_GET(self, request):
         description = get_description()
+        story = get_story()
         context = Context(locals())
         template = Template(get_template("base.html"))
 
@@ -153,7 +160,7 @@ if __name__ == '__main__':
     media.putChild(TASK_SLUG, static.File(path_join(TASK_DIR, settings.INFO_DIR, settings.MEDIA_DIR)))
     site = server.Site(root)
 
-    reactor.listenTCP(r_settings.CHAT_SERVICE_PORT, EchoServerFactory())
-    reactor.listenTCP(r_settings.WEB_SERVICE_PORT, WebServerSite(WebResource()))
+    # reactor.listenTCP(r_settings.CHAT_SERVICE_PORT, EchoServerFactory())
+    # reactor.listenTCP(r_settings.WEB_SERVICE_PORT, WebServerSite(WebResource()))
     reactor.listenTCP(settings.WEB_PORT, site)
     reactor.run()
