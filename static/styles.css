@@ -116,6 +116,7 @@ body {
     color: #294270;
     text-align: center;
     border: #99bce8 1px solid;
+    display: none;
 }
 
 .switch a {
@@ -131,8 +132,18 @@ body {
     top: 26px;
 }
 
+.sw-button {
+    border: none;
+    background-color: #d3e1f1;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #dfe9f5), color-stop(100%, #d3e1f1));
+}
+
+.sw-button:hover {
+    cursor: pointer;
+}
+
 .x-panel-body {
-    border: #294270 1px solid;
+    /*border: #294270 1px solid;*/
     min-height: 128px;
 }
 
@@ -169,6 +180,8 @@ body {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
     box-sizing: border-box;
+    overflow: auto;
+    font-size: 12px;
 }
 
 #editor-description {
@@ -228,7 +241,6 @@ body {
 }
 
 #tryit-panel {
-    float: left;
     background-color: #d3e1f1;
     float: right;
     box-sizing: border-box;
@@ -241,6 +253,7 @@ body {
 
 .animation_results {
     overflow: auto;
+    display: none;
 }
 
 .story {

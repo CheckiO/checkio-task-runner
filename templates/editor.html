@@ -7,25 +7,35 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <script type="text/javascript" src="/static/jquery_190.js"></script>
-    <script type="text/javascript" src="/static/raphael_210.js"></script>
+{#    <script type="text/javascript" src="/static/raphael_210.js"></script>#}
+    <script type="text/javascript" src="/static/require.js"></script>
     <script type="text/javascript"
             src="/static/ace/src-min-noconflict/ace.js"></script>
+    <style>
+        {{ animation_css|safe }}
+    </style>
+
 </head>
 
 <body>
+<script>
+{#    global object #}
+
+
+</script>
 <div class="topmenu-bar">
     Checkio editor emulation
 </div>
 <div class="topmenu-bar">
     <ul>
         <li>
-            Save Code
+            <button id="bn-save" onclick="save_code(editor.getSession().getValue())">Save Code</button>
         </li>
         <li>
-            Run&Check
+            <button id="bn-check" onclick="check_code(editor.getSession().getValue())">Run&Check</button>
         </li>
         <li>
-            Reset Code
+            <button id="bn-reset" onclick="reset_code()">Reset Code</button>
         </li>
     </ul>
 </div>
@@ -34,19 +44,40 @@
     <div class="panel-header">
         Check results
     </div>
+    <div id="editor-description">
+        {{ description|safe }}
+    </div>
     <div class="animation_results">
-        <div id="editor-description">
-            {{ description|safe }}
+        <div class="switch-tests switch">
+            <button class="sw-button" style="float: left" onclick="changeCategory(-1)">&lt;</button>
+            <span id="category-name"></span>
+            <button class="sw-button" style="float: right" onclick="changeCategory(1)">&gt;</button>
         </div>
+        <div class="switch-tests switch">
+            <button class="sw-button" style="float: left" onclick="changeTest(-1)">&lt;</button>
+            <span id="test-name"></span>
+            <button class="sw-button" style="float: right" onclick="changeTest(1)">&gt;</button>
+        </div>
+        <div class="x-panel-body">
+
+        </div>
+
+    </div>
+    <div style="display: none">
+        {{ templates|safe }}
     </div>
 </div>
 <div id="bottom-panel">
     <div class="panel-header">
         Console
     </div>
-    <div class="tryit_results" style="width: 100%; height: 170px">
-        <div id="tryit-panel">
+    <div id="tryit-panel"  style="width: 100%">
+        <div class="tryit_results">
 
+
+            <div class="x-panel-body">
+
+            </div>
         </div>
     </div>
 </div>
@@ -89,6 +120,29 @@
 
     var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/python");
+</script>
+<script type="text/javascript" src="/static/check_code.js"></script>
+
+<script>
+    requirejs.config({
+        baseUrl: 'static',
+        shim:{
+            raphael_210: {
+                deps: ['eve_024'],
+                exports : 'Raphael'
+            },
+            jquery_190: {
+                exports: '$'
+            }
+        }
+    });
+    {{ animation_js|safe }}
+
+
+    setTimeout(function() {
+                EXT.set_generate_animation_panel(EXT)
+            }, 1000
+    );
 </script>
 </body>
 </html>
