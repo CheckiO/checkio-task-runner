@@ -5,6 +5,9 @@ STATIC_DIR = 'static'
 TEMP_DIR = "./"
 TEMP_CODE = "temporary.py"
 
+CENTER_IP = "127.0.0.1"
+CENTER_PORT = 2324
+
 
 #Task's structure settings
 TASK_CONFIG_NAME = "task.json"

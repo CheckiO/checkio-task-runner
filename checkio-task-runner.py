@@ -1,24 +1,22 @@
 import sys
 import os
 import json
-from os.path import join as path_join
+import re
 import urllib
-import urllib2
 import urlparse
+from os.path import join as path_join
 
 from django.template import Template, Context
 from django.conf import settings as dj_settings
-import re
 from twisted.web.client import getPage
 from twisted.web.server import NOT_DONE_YET
-
-dj_settings.configure()
-import settings
-
 from twisted.web import server, resource, static
 from twisted.internet import reactor
 from twisted.python.log import startLogging
-from twisted.application import service, internet
+
+dj_settings.configure()
+
+import settings
 
 from runners import settings as r_settings
 from runners.web import WebServerSite, WebResource
@@ -203,22 +201,26 @@ class CenterForward(resource.Resource):
     isLeaf = True
 
     def render_POST(self, request):
+        d = None
         data = urllib.urlencode(
             dict([(k, v[0]) for k, v in request.args.items()]))
         if request.postpath[0] == 'check':
-            d = getPage("http://127.0.0.1:2324/center/check",
+            d = getPage("http://" + settings.CENTER_IP + ":"
+                        + str(settings.CENTER_PORT) + "/center/check",
                         method="POST",
                         postdata=data)
         elif request.postpath[0] == 'console':
-            d = getPage("http://127.0.0.1:2324/center/console",
+            d = getPage("http://" + settings.CENTER_IP + ":"
+                        + str(settings.CENTER_PORT) + "/center/console",
                         method="POST",
                         postdata=data)
+
         def getPageResult(data):
             data = "[" + data.strip(",") + "]"
             request.write(data)
             request.finish()
-
-        d.addCallback(getPageResult)
+        if d:
+            d.addCallback(getPageResult)
         return NOT_DONE_YET
 
 
