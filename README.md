@@ -1,3 +1,9 @@
+WARNING
+====================
+
+This runner is an old and not working. We left it just for history.
+
+
 checkio-task-runner
 ===================
 
